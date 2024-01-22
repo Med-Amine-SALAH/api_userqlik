@@ -5,12 +5,12 @@ app = Flask(__name__)
 
 csv_file_path = 'usernames.csv'
 try:
-    with open(csv_file_path, 'x', newline='') as csvfile:
-        fieldnames = ['username']
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        writer.writeheader()
+    with open(csv_file_path, 'a', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(['username'])
 except FileExistsError:
     pass
+
 
 def is_username_exists(username):
     with open(csv_file_path, 'r', newline='') as csvfile:
