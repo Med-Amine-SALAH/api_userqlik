@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import csv
 
 app = Flask(__name__)
@@ -30,6 +30,15 @@ def get_username():
             writer.writerow({'username': username})
 
     return render_template('accueil.html', username=username)
+
+@app.route('/read_csv', methods=['GET'])
+def read_csv():
+    data = []
+    with open(csv_file_path, 'r', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            data.append(row)
+    return jsonify(data)
 
 if __name__ == '__main__':
     app.run(debug=False)
